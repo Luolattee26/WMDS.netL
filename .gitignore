@@ -7,3 +7,4 @@
 **/*.gtf
 **/*.tsv
 **/*.rdata
+**/starBase_*
