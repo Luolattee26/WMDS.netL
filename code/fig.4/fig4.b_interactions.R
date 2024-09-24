@@ -1,3 +1,8 @@
+# This code is used to generate the figure 4b in the manuscript,
+# to show the interactions of lncRNAs in different driver groups.
+
+
+
 # init code
 rm(list = ls())
 source("./code/utils_TCGAmodel.R")
