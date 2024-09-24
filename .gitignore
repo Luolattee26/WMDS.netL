@@ -9,3 +9,4 @@
 **/*.rdata
 **/starBase_*
 **/*.tsv.gz
+**/*.Rdata
