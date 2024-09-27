@@ -18,5 +18,3 @@ Our codes are primarily constructed using `MATLAB`, `R`, and `Python`. The deplo
 We welcome anyone to use `WMDS.netL` for academic exploration in cancer biology, please cite our latest publication (to be published).
 
 If you have any questions or would like to discuss ideas, feel free to contact us at: luo_itm@zju.edu.cn.
-
-We are also very open to potential collaborations.
