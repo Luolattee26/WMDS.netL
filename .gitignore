@@ -13,3 +13,4 @@
 **/*.fa
 **/*.bed
 **/*.fasta
+**/gtex_RSEM_gene_fpkm
