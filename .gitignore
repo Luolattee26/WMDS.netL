@@ -10,3 +10,6 @@
 **/starBase_*
 **/*.tsv.gz
 **/*.Rdata
+**/*.fa
+**/*.bed
+**/*.fasta
