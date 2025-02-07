@@ -6,9 +6,9 @@
 - [About](#About)
 - [Usage](#Usage)
   - [Installation](#Installation)
-  - [Run WMDS.netL](#Run WMDS.netL)
+  - [Run WMDS.netL](#Run-WMDS.netL)
 - [Analysis](#Analysis)
-- [System Information](#System Information)
+- [System Information](#System-Information)
 - [Contact](#Contact)
 
 ## Introduction
