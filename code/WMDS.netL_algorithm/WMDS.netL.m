@@ -3,7 +3,7 @@
 
 
 
-load('mRNA_lnc_id_pairs')
+load('mRNA_lnc_priori_network')
 cancer_type={'BLCA','BRCA','COAD','HNSC','KICH','KIRC','KIRP','LIHC','LUAD','LUSC','PRAD','STAD','THCA','UCEC'};
 
 for o=1:14
@@ -20,7 +20,7 @@ for w=1:length(text)
     text{w}=text{w}(1:15);
 end
 
-IN_all=[mRNA_lnc_id_pairs(:,1);mRNA_lnc_id_pairs(:,2)];
+IN_all=[mRNA_lnc_priori_network(:,1);mRNA_lnc_priori_network(:,2)];
 
 IN_all=unique(IN_all);
 
@@ -48,8 +48,8 @@ normal_data=normal.data;
 normal_data=normal_data(y1,:);
 lncRNA_text_final=tumor_text;
 
-[~,z1]=ismember(mRNA_lnc_id_pairs(:,1),lncRNA_text_final);
-[~,z2]=ismember(mRNA_lnc_id_pairs(:,2),lncRNA_text_final);
+[~,z1]=ismember(mRNA_lnc_priori_network(:,1),lncRNA_text_final);
+[~,z2]=ismember(mRNA_lnc_priori_network(:,2),lncRNA_text_final);
 y=z1.*z2;
 z=[z1 z2];
 z(y==0,:)=[];
