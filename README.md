@@ -5,10 +5,10 @@
 - [Introduction](#Introduction)
 - [About](#About)
 - [Usage](#Usage)
+  - [Installation](#Installation)
+  - [Run WMDS.netL](#Run WMDS.netL)
 - [Analysis](#Analysis)
-  - [Dataset](#dataset)
-  - [Train](#train)
-  - [Inference](#inference)
+- [System Information](#System Information)
 - [Contact](#Contact)
 
 ## Introduction
@@ -30,11 +30,11 @@ The WMDS.netL algorithm is built via **MATLAB** and you can find it in `./code/W
 git clone git@github.com:Luolattee26/WMDS.netL.git
 cd WMDS.netL
 conda env create -f environment.yml
-conda activate 
+conda activate lncRNA_W
 ```
 
 
-### Run
+### Run WMDS.netL
 
 * After the installation is complete, you should make sure that **MATLAB** is installed on your machine.The `WMDS.netL` algorithm requires two input files, one for the normal expression matrix (TYPE_normal.txt) and the other for the tumor expression matrix (TYPE_tumor.txt). These two expression matrices should be located in `./data/` folder and each row is a gene, each column is a sample.
 * After preparing the input file and setting up the runtime environment, please modify the value of the `cancer_type` variable in the `WMDS.netL` code located at `/code/WMDS.netL_algorithm/WMDS.netL.m`. Adjust the `cancer_type` variable to match the `TYPE` specified in your input files' name. Additionally, within the subsequent for loop (`for o=1:14`), ensure that the values are updated according to the specific type of cancer you wish to analyze.
@@ -47,9 +47,20 @@ matlab -nodisplay -nosplash -r "run('code/WMDS.netL_algorithm/WMDS.netL');exit;"
 ```
 
 
-
 ## Analysis
+If you are interested in our analytical approach or would like to reproduce our results, please refer to the section located at `./code/` folder.
+* For each code file, we save the files in the order of Figure in the manuscript and mark them with the file name
+* Some of the original data, as mentioned earlier, were not uploaded due to file size limitations, and you can refer to our manuscript for these data (all are publicly available)
+* Some figures or panels use multiple code files for analysis and plotting, where the running order is labeled in the file name, as follows:
+  - In Figure 3D, we used the phastCon score to calculate the conservatism of different lncRNA transcripts, and this analysis was done using several scripts
+    1. First use `./code/fig.3/fig3.d_0_gtf2bed.sh` to prepare input file
+    2. Then use `./code/fig.3/fig3.d_1_get_phastCon_res.py` to perform the analysis
+    3. Finally use `./code/fig.3/fig3.d&e_plot_Con_TS.R` to plot the result
+  - The number (0 and 1) in file name indicates the order in which the script is run 
+  - A similar situation occurs with the following analysis: *Figure 3F, 4A, 4B, 6A, 6B*
 
+
+## System Information
 
 
 
