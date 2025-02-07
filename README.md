@@ -1,12 +1,12 @@
 # WMDS.netL: Advanced Cancer-Driving LncRNA Identification
 
-# Table of Contents
+## Table of Contents
 
 - [Introduction](#Introduction)
 - [About](#About)
 - [Usage](#Usage)
   - [Installation](#Installation)
-  - [Run WMDS.netL](#Run-WMDS-netL)
+  - [Run](#Run)
 - [Analysis](#Analysis)
 - [System Information](#System-Information)
 - [Contact](#Contact)
@@ -33,34 +33,57 @@ conda env create -f environment.yml
 conda activate lncRNA_W
 ```
 
+### Run  
 
-### Run WMDS.netL
+- Before running the algorithm, ensure that **MATLAB** is installed on your system. The `WMDS.netL` algorithm requires two input files:  
+  - A normal expression matrix (`TYPE_normal.txt`)  
+  - A tumor expression matrix (`TYPE_tumor.txt`)  
+  These files should be placed in the `./data/` directory, where each row represents a gene and each column represents a sample.  
 
-* After the installation is complete, you should make sure that **MATLAB** is installed on your machine.The `WMDS.netL` algorithm requires two input files, one for the normal expression matrix (TYPE_normal.txt) and the other for the tumor expression matrix (TYPE_tumor.txt). These two expression matrices should be located in `./data/` folder and each row is a gene, each column is a sample.
-* After preparing the input file and setting up the runtime environment, please modify the value of the `cancer_type` variable in the `WMDS.netL` code located at `/code/WMDS.netL_algorithm/WMDS.netL.m`. Adjust the `cancer_type` variable to match the `TYPE` specified in your input files' name. Additionally, within the subsequent for loop (`for o=1:14`), ensure that the values are updated according to the specific type of cancer you wish to analyze.
-* For an intuitive understanding of the required input data format, you may refer to the TCGA data provided by the Xena platform. 
-![Input format](input_format.jpg)
+- Once the input files are prepared and the runtime environment is set up, update the `cancer_type` variable in the `WMDS.netL` code located at `/code/WMDS.netL_algorithm/WMDS.netL.m`.  
+  - Set `cancer_type` to match the `TYPE` specified in your input file names.  
+  - Additionally, in the `for` loop (`for o=1:14`), adjust the values as needed based on the specific cancer type you are analyzing.  
 
-You can run `WMDS.netL` by:
-```
+- For a better understanding of the required input data format, you may refer to TCGA data available on the Xena platform.  
+  ![Input format](input_format.jpg)  
+
+To run `WMDS.netL`, use the following command:  
+```bash
 matlab -nodisplay -nosplash -r "run('code/WMDS.netL_algorithm/WMDS.netL');exit;"
-```
+```  
 
 
-## Analysis
-If you are interested in our analytical approach or would like to reproduce our results, please refer to the section located at `./code/` folder.
-* For each code file, we save the files in the order of Figure in the manuscript and mark them with the file name
-* Some of the original data, as mentioned earlier, were not uploaded due to file size limitations, and you can refer to our manuscript for these data (all are publicly available)
-* Some figures or panels use multiple code files for analysis and plotting, where the running order is labeled in the file name, as follows:
-  - In Figure 3D, we used the phastCon score to calculate the conservatism of different lncRNA transcripts, and this analysis was done using several scripts
-    1. First use `./code/fig.3/fig3.d_0_gtf2bed.sh` to prepare input file
-    2. Then use `./code/fig.3/fig3.d_1_get_phastCon_res.py` to perform the analysis
-    3. Finally use `./code/fig.3/fig3.d&e_plot_Con_TS.R` to plot the result
-  - The number (0 and 1) in file name indicates the order in which the script is run 
-  - A similar situation occurs with the following analysis: *Figure 3F, 4A, 4B, 6A, 6B*
+## Analysis  
+
+If you are interested in our analytical approach or would like to reproduce our results, please refer to the `./code/` directory.  
+
+- Each code file is organized in the order corresponding to the figures in the manuscript, with filenames indicating their respective figures.  
+- Some original data files have not been uploaded due to size limitations. However, all data are publicly available, and you can refer to our manuscript for access details.  
+- Certain figures or panels require multiple scripts for analysis and visualization. The execution order of these scripts is indicated in their filenames.  
+
+### Example: Figure 3D  
+For Figure 3D, we used the phastCon score to assess the conservation of different lncRNA transcripts. This analysis involves the following steps:  
+
+1. **Prepare input files** using `./code/fig.3/fig3.d_0_gtf2bed.sh`  
+2. **Perform conservation analysis** with `./code/fig.3/fig3.d_1_get_phastCon_res.py`  
+3. **Generate plots** using `./code/fig.3/fig3.d&e_plot_Con_TS.R`  
+
+- The numerical prefix (e.g., `0`, `1`) in the filenames denotes the order in which the scripts should be executed.  
+- Similar multi-script workflows apply to the following analyses: *Figure 3F, 4A, 4B, 6A, 6B*.  
 
 
-## System Information
+
+
+## System Information  
+
+- The `WMDS.netL` algorithm was implemented and tested on a PC with **Intel 4-core CPUs (3.40 GHz × 4) and 24 GB of RAM**. Systems with higher hardware specifications can efficiently run `WMDS.netL` and the other analyses provided in this repository.  
+
+- We strongly recommend conducting the subsequent analyses on **Linux, macOS, or WSL (Windows Subsystem for Linux)**. This is because the `pyBigWig` package, which is required for conservation analysis, is only supported in Unix-like environments.  
+
+- For detailed information about the computational environment, refer to the configuration files included in this repository:  
+  - `./sessionInfo.txt` contains the session details for the R analysis scripts.  
+  - `./environment.yml` provides the Conda virtual environment configuration.  
+
 
 
 
