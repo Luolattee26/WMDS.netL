@@ -36,8 +36,8 @@ conda activate lncRNA_W
 ### Run  
 
 - Before running the algorithm, ensure that **MATLAB** is installed on your system. The `WMDS.netL` algorithm requires two input files:  
-  - A normal expression matrix (`TYPE_normal.txt`)  
-  - A tumor expression matrix (`TYPE_tumor.txt`)  
+  - A normal expression matrix (`TYPEnormal.txt`)  
+  - A tumor expression matrix (`TYPEtumor.txt`)  
   These files should be placed in the `./data/` directory, where each row represents a gene and each column represents a sample.  
 
 - Once the input files are prepared and the runtime environment is set up, update the `cancer_type` variable in the `WMDS.netL` code located at `/code/WMDS.netL_algorithm/WMDS.netL.m`.  
@@ -47,10 +47,16 @@ conda activate lncRNA_W
 - For a better understanding of the required input data format, you may refer to TCGA data available on the Xena platform.  
   ![Input format](input_format.jpg)  
 
-To run `WMDS.netL`, use the following command:  
+To run `WMDS.netL`, use the following command in **BASH**:  
 ```bash
-matlab -nodisplay -nosplash -r "run('code/WMDS.netL_algorithm/WMDS.netL');exit;"
+matlab -nodisplay -nosplash -r code/WMDS.netL_algorithm/WMDS.netL
 ```  
+or directly run in **MATLAB**:
+```MATLAB
+code/WMDS.netL_algorithm/WMDS.netL
+```  
+
+
 
 
 ## Analysis  
