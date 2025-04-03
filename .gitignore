@@ -14,3 +14,4 @@
 **/*.bed
 **/*.fasta
 **/gtex_RSEM_gene_fpkm
+**/.DS_Store
