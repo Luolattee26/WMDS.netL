@@ -130,9 +130,7 @@ trans <- scales::trans_new(
   inverse = function(x) ifelse(x <= 0.5, x * 10, 5 + (x - 0.5) * 46)
 )
 p <- ggplot(df_exon) +
-  geom_boxplot(aes(group, (as.numeric(exon_count)), color = group),
-               outlier.shape = 21
-  ) +
+  geom_violin(aes(group, (as.numeric(exon_count)), color = group)) +
   scale_color_manual(values = c(
     "#eb4b3a", "#48bad0", "#1a9781",
     "#355783", "#ef9a80"
@@ -182,9 +180,9 @@ for (i in 1:nrow(stat.test.exon)) {
     )
   }
 }
-p <- p + scale_y_break(breaks = c(5, 26), scales = 0.3, space = 0.3, ticklabels = c(26, 28)) +
+p <- p + scale_y_break(breaks = c(10, 26), scales = 0.3, space = 0.3, ticklabels = c(26, 28)) +
   scale_y_continuous(breaks = c(0, 5, 10, 20, 25, 28), limits = c(0, 28))
 # save
 ggsave(paste(output_path, "/", "fancy_exonCount_breaked.tiff", sep = ""),
-       height = 7.4, width = 8, dpi = 600, units = "cm"
+  height = 7.4, width = 8, dpi = 600, units = "cm"
 )

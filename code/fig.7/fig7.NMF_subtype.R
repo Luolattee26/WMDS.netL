@@ -10,9 +10,10 @@ source("./code/utils_TCGAmodel.R")
 
 # input TCGA exp data
 raw_data <- read.table("./data/TCGA_14cancer/fpkm/TCGA-UCEC.htseq_fpkm.tsv",
-                       header = T, sep = "\t", check.names = F)
+  header = T, sep = "\t", check.names = F
+)
 fixed_samples <- seprate_samples(raw_data,
-                                 data_preprocess = FALSE
+  data_preprocess = FALSE
 )
 normal_df <- fixed_samples[[1]]
 tumor_df <- fixed_samples[[2]]
@@ -78,8 +79,8 @@ plot(result)
 # the best number is 3
 rank <- 3
 result_best <- nmf(nmf.input,
-                   rank = rank,
-                   seed = random_seed
+  rank = rank,
+  seed = random_seed
 )
 # get features
 index <- extractFeatures(result_best, "max")
@@ -87,8 +88,8 @@ index <- extractFeatures(result_best, "max")
 # and remove the NA feature of a group
 nmf.input2 <- nmf.input[na.omit(unlist(index)), ]
 result2 <- nmf(nmf.input2,
-               rank = rank,
-               seed = random_seed
+  rank = rank,
+  seed = random_seed
 )
 # or just use the result of best k
 result2 <- result_best
@@ -107,7 +108,7 @@ group <- group[match(rownames(survival_LUAD), names(group))]
 identical(names(group), rownames(survival_LUAD))
 survival_LUAD$group <- group
 sfit <- survfit(Surv(time, event) ~ group,
-                data = survival_LUAD
+  data = survival_LUAD
 )
 ggsurvplot(sfit, pval = T, palette = "jco")
 # save result

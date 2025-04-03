@@ -25,8 +25,8 @@ lncRNA_list <- unlist(pan_7_driver$lnc)
 # prepare violin data
 # This data is get from UCSC-Xena platform
 data <- violin_data("./data/TCGA_14cancer/fpkm/",
-                    driver_list = lncRNA_list,
-                    pattern = pattern
+  driver_list = lncRNA_list,
+  pattern = pattern
 )
 colnames(data) <- c("expr", "group", "project")
 
@@ -57,11 +57,17 @@ bracket_data <- data.frame(
 
 # new plot
 p <- ggplot() +
-  geom_boxplot(data = data_new, aes(x = project, y = expr, fill = group),
-               outlier.shape = 21, outlier.fill = "white") +
-  scale_fill_manual(name = NULL,
-                    values = c("drivers" = "#d6503a",
-                               "non-drivers" = "#5488ef")) +
+  geom_boxplot(
+    data = data_new, aes(x = project, y = expr, fill = group),
+    outlier.shape = 21, outlier.fill = "white"
+  ) +
+  scale_fill_manual(
+    name = NULL,
+    values = c(
+      "drivers" = "#d6503a",
+      "non-drivers" = "#5488ef"
+    )
+  ) +
   theme_bw() +
   ylab("Log2(TPM + 1)") +
   theme(
@@ -89,15 +95,22 @@ p <- ggplot() +
       annotation = annotation
     )
   ) +
-  annotate(geom = "text", x = index, y = bracket_data$y + 0.5,
-           label = as.character(stat_data$p.signif)) +
+  annotate(
+    geom = "text", x = index, y = bracket_data$y + 0.5,
+    label = as.character(stat_data$p.signif)
+  ) +
   scale_y_continuous(limits = c(0, 20)) +
-  scale_y_break(breaks = c(3, 14), scales = 0.3, space = 0.3,
-                ticklabels = c(14, 17)) +
+  scale_y_break(
+    breaks = c(3, 14), scales = 0.3, space = 0.3,
+    ticklabels = c(14, 17)
+  ) +
   scale_x_discrete(labels = sort(as.character(unique(data_new$project)))) +
   ggtitle("Expression of >=7 drivers and non-drivers in tumor samples")
 # save
-ggsave(paste(output_path, "/", "pan_cancer_boxplot_breaked_pattern_",
-             pattern, '.tiff', sep = ""),
-       height = 9, width = 21, dpi = 600, units = "cm"
+ggsave(
+  paste(output_path, "/", "pan_cancer_boxplot_breaked_pattern_",
+    pattern, ".tiff",
+    sep = ""
+  ),
+  height = 9, width = 21, dpi = 600, units = "cm"
 )

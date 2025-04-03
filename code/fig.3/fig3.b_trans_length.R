@@ -111,8 +111,11 @@ df_length <- data.frame(
   )
 )
 df_length$group <- factor(df_length$group,
-                          levels = c("Non-drivers", "All drivers",
-                                     ">= 2", ">= 5", ">= 7"))
+  levels = c(
+    "Non-drivers", "All drivers",
+    ">= 2", ">= 5", ">= 7"
+  )
+)
 
 # plot
 # statistic test
@@ -139,7 +142,7 @@ trans <- scales::trans_new(
 )
 p <- ggplot(df_length) +
   geom_boxplot(aes(group, (as.numeric(width) / 1000), color = group),
-               outlier.shape = 21
+    outlier.shape = 21
   ) +
   scale_color_manual(values = c(
     "#eb4b3a", "#48bad0", "#1a9781",
@@ -189,13 +192,15 @@ for (i in 1:nrow(stat.test.width)) {
     )
   }
 }
-p <- p + scale_y_break(breaks = c(2, 90), scales = 0.3, space = 0.3,
-                       ticklabels = c(90, 94)) +
+p <- p + scale_y_break(
+  breaks = c(2, 90), scales = 0.3, space = 0.3,
+  ticklabels = c(90, 94)
+) +
   scale_y_continuous(
     breaks = c(0, 2, 4, 25, 50, 75),
     limits = c(0, 94)
   )
 # save
 ggsave(paste(output_path, "/", "fancy_width_breaked.tiff", sep = ""),
-       height = 7.4, width = 8, dpi = 600, units = "cm"
+  height = 7.4, width = 8, dpi = 600, units = "cm"
 )

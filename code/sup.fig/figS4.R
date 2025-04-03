@@ -12,23 +12,16 @@ source("./code/utils_TCGAmodel.R")
 # These data are from starBase
 miRNA2lnc <- read.csv("./data/starBase_data/starBase_miRNA_lnc.txt", sep = "\t")
 RBP <- read.csv("./data/starBase_data/starBase_RBP_lnc.txt", sep = "\t")
-key_k562 <- unlist(lapply(RBP$cellline.tissue, function(x) {
+key <- unlist(lapply(RBP$cellline.tissue, function(x) {
   if (grepl("K562", x)) {
+    return(FALSE)
+  } else if (grepl("HepG2", x)) {
     return(TRUE)
   } else {
     return(FALSE)
   }
 }))
-key_hepg2 <- unlist(lapply(RBP$cellline.tissue, function(x) {
-  if (grepl("HepG2", x)) {
-    return(TRUE)
-  } else {
-    return(FALSE)
-  }
-}))
-RBP_k562 <- RBP[key_k562, ]
-RBP_hepg2 <- RBP[key_hepg2, ]
-
+RBP <- RBP[key, ]
 
 # input lncDATA
 file_path <- "./data/pancancer_driver/"
@@ -50,75 +43,43 @@ all_lnc_list <- all_lnc$...1
 # count
 # miRNA
 mir_count <- list()
-RBP_count_K562 <- list()
-RBP_count_hepg2 <- list()
+RBP_count <- list()
 fractionMir <- list()
-fractionRbp_K562 <- list()
-fractionRbp_hepg2 <- list()
+fractionRbp <- list()
 index <- 0
 for (pan in pan_list) {
-  # index
   index <- index + 1
-
-  # miRNA
   k1 <- miRNA2lnc$geneID %in% pan$lnc
   mirTmp <- miRNA2lnc[k1, ]
   fractionMir[index] <- round(length(levels(factor(mirTmp$geneID))) / dim(pan)[1] * 100, 2)
   mir_count[index] <- dim(mirTmp)[1]
-
-  # RBP of K562
-  k2 <- RBP_k562$geneID %in% pan$lnc
-  RbpTmp <- RBP_k562[k2, ]
-  fractionRbp_K562[index] <- round(length(levels(factor(RbpTmp$geneID))) / dim(pan)[1] * 100, 2)
-  RBP_count_K562[index] <- dim(RbpTmp)[1]
-
-  # RBP of HepG2
-  k3 <- RBP_hepg2$geneID %in% pan$lnc
-  RbpTmp <- RBP_hepg2[k3, ]
-  fractionRbp_hepg2[index] <- round(length(levels(factor(RbpTmp$geneID))) / dim(pan)[1] * 100, 2)
-  RBP_count_hepg2[index] <- dim(RbpTmp)[1]
+  k2 <- RBP$geneID %in% pan$lnc
+  RbpTmp <- RBP[k2, ]
+  fractionRbp[index] <- round(length(levels(factor(RbpTmp$geneID))) / dim(pan)[1] * 100, 2)
+  RBP_count[index] <- dim(RbpTmp)[1]
 }
 df <- data.frame(
-  group = names(pan_list),
-  mirCount = log10(unlist(mir_count)),
-  mirPercent = unlist(fractionMir),
-  rbpCount_K562 = log10(unlist(RBP_count_K562)),
-  rbpPercent_K562 = unlist(fractionRbp_K562),
-  rbpCount_hepg2 = log10(unlist(RBP_count_hepg2)),
-  rbpPercent_hepg2 = unlist(fractionRbp_hepg2)
+  group = names(pan_list), mirCount = log10(unlist(mir_count)), rbpCount = log10(unlist(RBP_count)),
+  mirPercent = unlist(fractionMir), rbpPercent = unlist(fractionRbp)
 )
 # add non-driver
-# miRNA
 k <- all_lnc_list %in% pan_list[[1]]$lnc
 all_non <- all_lnc_list[!k]
 k1 <- miRNA2lnc$geneID %in% all_non
 mirTmp <- miRNA2lnc[k1, ]
 f1 <- round(length(levels(factor(mirTmp$geneID))) / length(all_non) * 100, 2)
 c1 <- dim(mirTmp)[1]
-# RBP of K562
-k2 <- RBP_k562$geneID %in% all_non
-RbpTmp <- RBP_k562[k1, ]
+k2 <- RBP$geneID %in% all_non
+RbpTmp <- RBP[k1, ]
 f2 <- round(length(levels(factor(RbpTmp$geneID))) / length(all_non) * 100, 2)
 c2 <- dim(RbpTmp)[1]
-# RBP of HepG2
-k3 <- RBP_hepg2$geneID %in% all_non
-RbpTmp <- RBP_hepg2[k3, ]
-f3 <- round(length(levels(factor(RbpTmp$geneID))) / length(all_non) * 100, 2)
-c3 <- dim(RbpTmp)[1]
-# add
-tmp <- list("non", log10(c1), f1, log10(c2), f2, log10(c3), f3)
+tmp <- list("non", c1, c2, f1, f2)
 df <- rbind(df, tmp)
 
 # plot
-df_noCount <- df[, c(1, 3, 5, 7)]
-df_long <- tidyr::pivot_longer(df_noCount,
-  cols = c(mirPercent, rbpPercent_K562, rbpPercent_hepg2),
-  names_to = "interGroup", values_to = "value"
-)
+df_noCount <- df[, c(1, 4, 5)]
+df_long <- tidyr::pivot_longer(df_noCount, cols = c(mirPercent, rbpPercent), names_to = "interGroup", values_to = "value")
 df_long$group <- factor(df_long$group, levels = c("non", pancancer_driver_list))
-df_long$interGroup <- factor(df_long$interGroup,
-  levels = c("mirPercent", "rbpPercent_hepg2", "rbpPercent_K562")
-)
 df_long$value <- round(as.numeric(df_long$value), 1)
 p <- ggplot(df_long, aes(x = group, y = value, fill = interGroup)) +
   geom_bar(stat = "identity", position = "dodge", width = 0.7) +
@@ -126,8 +87,8 @@ p <- ggplot(df_long, aes(x = group, y = value, fill = interGroup)) +
     x = "drivers group", y = "Prop. of lncRNAs with interactions", fill = "Type of interactions",
     tittle = "Interactions of drivers"
   ) +
-  scale_fill_manual(values = c("#f6b47b", "#249fca", "#bcb9d4"), labels = c("miRNA-lncRNA", "RBP in HepG2", "RBP in K562")) +
-  geom_text(aes(label = value), vjust = -0.3, position = position_dodge(width = 0.7), size = 9.5) +
+  scale_fill_manual(values = c("#f6b47b", "#249fca"), labels = c("miRNA-lncRNA", "RNA binding protein")) +
+  geom_text(aes(label = value), vjust = -0.3, position = position_dodge(width = 0.7), size = 13) +
   theme_classic() +
   scale_x_discrete(labels = c(
     "Non-drivers", "All drivers", ">= 2", ">= 5",
@@ -145,9 +106,10 @@ p <- ggplot(df_long, aes(x = group, y = value, fill = interGroup)) +
     legend.title = element_text(size = 33),
     title = element_text(size = 50)
   )
-p <- p + scale_y_break(breaks = c(15, 30), scales = 0.5, space = 0.3, ticklabels = c(35, 70)) +
-  scale_y_continuous(limits = c(0, 80))
-#  save
-ggsave("./output/interactions_tmp.tiff",
+# p <- p + scale_y_break(breaks = c(15, 70), scales = 0.5, space = 0.3, ticklabels = c(75, 90)) +
+#   scale_y_continuous(limits = c(0, 100))
+
+# save
+ggsave("./output/interactions_HepG2.tiff",
   height = 9, width = 21, dpi = 600
 )

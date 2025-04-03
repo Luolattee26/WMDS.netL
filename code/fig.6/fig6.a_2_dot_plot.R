@@ -12,10 +12,14 @@ HR_data <- read.csv("./output/pan_cancer_cox/cox_HR.csv", row.names = 1)
 # long data prepare
 cox_data <- t(as.matrix(cox_data))
 HR_data <- t(as.matrix(HR_data))
-HR_data_long <- melt(HR_data, varnames = c("type", "gene"),
-                     value.name = "HR")
-cox_data_long <- melt(cox_data, varnames = c("type", "gene"),
-                      value.name = "pvalue")
+HR_data_long <- melt(HR_data,
+  varnames = c("type", "gene"),
+  value.name = "HR"
+)
+cox_data_long <- melt(cox_data,
+  varnames = c("type", "gene"),
+  value.name = "pvalue"
+)
 mixed_HRcox <- cbind(HR_data_long, cox_data_long$pvalue)
 colnames(mixed_HRcox) <- c("type", "gene", "HR", "pvalue")
 # whether to use full list of drivers
@@ -30,8 +34,8 @@ if (!useFull) {
 # plot
 p1 <- ggplot(mixed_HRcox, aes(x = type, y = gene)) +
   geom_point(aes(size = -log10(pvalue + 0.0001), fill = HR),
-             shape = 21,
-             color = "black"
+    shape = 21,
+    color = "black"
   ) +
   scale_fill_gradient2(
     name = "HR",

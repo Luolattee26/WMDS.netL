@@ -84,8 +84,8 @@ runPCA(tmp)
 tmp_combat <- t(data)
 tmp_combat <- data.frame(tmp_combat)
 corrected_data <- runComBat(tmp_combat,
-                            cancer_type = cancer,
-                            path = "./output/expData_MLmodel/combine_GTEx/useTopFeatures/"
+  cancer_type = cancer,
+  path = "./output/expData_MLmodel/combine_GTEx/useTopFeatures/"
 )
 print("here is the overview of samples:")
 print(table(unlist(corrected_data["status", ])))

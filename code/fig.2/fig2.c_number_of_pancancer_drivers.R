@@ -13,7 +13,8 @@ source("./code/utils.R")
 # read drivers
 cancer_list <- colnames(read_excel("./data/WMDS_latest/cancer_list.xlsx"))
 drivers_14 <- read_excel("./data/WMDS_latest/gene_14.xlsx",
-                         col_names = cancer_list)
+  col_names = cancer_list
+)
 
 # calculation
 drivers_list <- na.omit(unlist(drivers_14))
@@ -37,8 +38,8 @@ count_df$group <- factor(count_df$group, levels = lapply(1:14, function(x) {
 # plot
 p <- ggplot(count_df) +
   geom_bar(aes(group, count),
-           fill = "#80b1d3",
-           stat = "identity"
+    fill = "#80b1d3",
+    stat = "identity"
   ) +
   xlab("Number of cancer types") +
   ylab("drivers") +
@@ -47,18 +48,24 @@ p <- ggplot(count_df) +
     legend.position = "none",
     panel.grid = element_blank(),
     plot.title = element_text(hjust = 0.5, size = 55),
-    axis.title.x = element_text(size = 48, vjust = 1,
-                                hjust = 0.5),
-    axis.text.x = element_text(angle = 30, vjust = 0.5,
-                               hjust = 0.5, size = 40, face = "bold"),
+    axis.title.x = element_text(
+      size = 48, vjust = 1,
+      hjust = 0.5
+    ),
+    axis.text.x = element_text(
+      angle = 30, vjust = 0.5,
+      hjust = 0.5, size = 40, face = "bold"
+    ),
     axis.text.y = element_text(size = 52),
     axis.title.y = element_text(size = 53, vjust = 1, hjust = 0.5),
     title = element_text(size = 55)
   ) +
-  geom_text(aes(group, count, label = count), vjust = 0,
-            position = position_dodge(width = 0.7), size = 15)
+  geom_text(aes(group, count, label = count),
+    vjust = 0,
+    position = position_dodge(width = 0.7), size = 15
+  )
 p <- p + scale_y_continuous(limits = c(0, 727))
 # save
 ggsave("./output/drivers_pancancer_overlap.tiff",
-       height = 9.5, width = 21, dpi = 600, plot = p
+  height = 9.5, width = 21, dpi = 600, plot = p
 )

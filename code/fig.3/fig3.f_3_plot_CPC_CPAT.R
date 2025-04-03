@@ -4,6 +4,7 @@
 
 # init code
 rm(list = ls())
+source('./code/utils_TCGAmodel.R')
 
 
 # gtf
@@ -166,7 +167,7 @@ df_per <- subset(df_per, score_group != "mean_per")
 # mixed plot
 p <- ggplot(df_per, aes(x = group, y = per, fill = score_group)) +
   geom_bar(stat = "identity", position = "dodge", width = 0.4) +
-  labs(x = "drivers group", y = "Conding percent", fill = "Algorithms", tittle = "Coding ability of drivers") +
+  labs(x = "drivers group", y = "Coding Percent", fill = "Algorithms", tittle = "Coding ability of drivers") +
   scale_fill_manual(values = c("#ffc24b", "#1d3557"), labels = c("CPAT", "CPC")) +
   theme_classic() +
   scale_x_discrete(labels = c(
@@ -188,5 +189,5 @@ p <- ggplot(df_per, aes(x = group, y = per, fill = score_group)) +
 p
 # save
 ggsave("./output/coding.tiff",
-       height = 9, width = 21, dpi = 600
+  height = 9, width = 21, dpi = 600
 )

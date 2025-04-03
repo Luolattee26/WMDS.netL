@@ -28,19 +28,21 @@ tiff(
 )
 ht_opt$TITLE_PADDING <- unit(c(4, 4), "points")
 hr <- Heatmap(W,
-              column_split = ncol(W),
-              show_row_names = F, show_column_names = T,
-              cluster_rows = T,
-              heatmap_legend_param = list(
-                title = "normalized basis",
-                title_gp = gpar(fontsize = 17),
-                labels_gp = gpar(fontsize = 15)
-              ),
-              column_names_rot = 0,
-              column_names_centered = T,
-              column_names_gp = gpar(fontsize = 15),
-              column_title_gp = gpar(fill = c("red", "blue"), font = 1:2)
+  column_split = ncol(W),
+  show_row_names = F, show_column_names = T,
+  cluster_rows = T,
+  heatmap_legend_param = list(
+    title = "normalized basis",
+    title_gp = gpar(fontsize = 17),
+    labels_gp = gpar(fontsize = 15)
+  ),
+  column_names_rot = 0,
+  column_names_centered = T,
+  column_names_gp = gpar(fontsize = 15),
+  column_title_gp = gpar(fill = c("red", "blue"), font = 1:2)
 )
-draw(hr, column_title = "NMF basis of drivers in UCEC",
-     column_title_gp = gpar(fontsize = 25))
+draw(hr,
+  column_title = "NMF basis of drivers in UCEC",
+  column_title_gp = gpar(fontsize = 25)
+)
 dev.off()

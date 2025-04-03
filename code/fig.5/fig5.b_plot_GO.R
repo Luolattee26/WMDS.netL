@@ -90,5 +90,5 @@ p <- ggplot(data, aes(Pathway, Number)) +
 
 # save
 ggsave("./output/enrichment/go_mixed_barplot.tiff",
-       height = 14.5, width = 21, dpi = 1000
+  height = 14.5, width = 21, dpi = 1000
 )

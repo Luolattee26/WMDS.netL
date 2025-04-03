@@ -107,8 +107,8 @@ result$sample <- factor(result$sample, levels = c(
 ))
 p <- ggplot(result, aes(sample, fill = transcript_type)) +
   geom_bar(aes(sample, count, fill = transcript_type),
-           width = 0.8,
-           stat = "identity", position = "fill", color = "#303030"
+    width = 0.8,
+    stat = "identity", position = "fill", color = "#303030"
   ) +
   scale_fill_manual(values = c(
     "#e3a6a5", "#ecdd9e", "#71aacd",
@@ -134,5 +134,5 @@ p <- ggplot(result, aes(sample, fill = transcript_type)) +
   coord_flip()
 # save
 ggsave("./output/Transcript_type.tiff",
-       height = 7.4, width = 21, dpi = 600
+  height = 7.4, width = 21, dpi = 600
 )

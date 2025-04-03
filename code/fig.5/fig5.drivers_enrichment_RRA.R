@@ -10,7 +10,7 @@ source("./code/utils.R")
 
 # input lnc and mRNA
 lnc_mRNA <- read_excel("./data/WMDS_latest/final_network_nodes_edges.xlsx",
-                       col_names = c("node1", "node2", "pvalue")
+  col_names = c("node1", "node2", "pvalue")
 )
 pan_7 <- read.csv("./data/pancancer_driver/pan_dri_7.csv")
 pan_7_list <- pan_7$lnc
@@ -46,9 +46,9 @@ if (useImportant) {
 
 # ID translation
 ID <- bitr(important_mRNA$Name,
-           fromType = "ENSEMBL",
-           toType = "ENTREZID",
-           OrgDb = org.Hs.eg.db
+  fromType = "ENSEMBL",
+  toType = "ENTREZID",
+  OrgDb = org.Hs.eg.db
 )
 non_duplicates_idx <- which(!(duplicated(ID$ENSEMBL)))
 ID <- ID[non_duplicates_idx, ]

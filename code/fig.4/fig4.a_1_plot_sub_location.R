@@ -45,8 +45,8 @@ df_long_hepg2$sample <- factor(df_long_hepg2$sample, levels = c(
 ))
 p <- ggplot(df_long_hepg2, aes(sample, fill = type)) +
   geom_bar(aes(sample, value, fill = type),
-           width = 0.8,
-           stat = "identity", position = "fill", color = "#303030"
+    width = 0.8,
+    stat = "identity", position = "fill", color = "#303030"
   ) +
   scale_fill_manual(values = c(
     "#e3a6a5", "#ecdd9e", "#71aacd",
@@ -79,7 +79,7 @@ p <- ggplot(df_long_hepg2, aes(sample, fill = type)) +
   guides(fill = guide_legend(nrow = 4))
 # save
 ggsave("./output/RCI/pancancer/HepG2_ENCODE.tiff",
-       height = 11.5, width = 10, dpi = 600
+  height = 11.5, width = 10, dpi = 600
 )
 # K562
 df_long_K562$sample <- factor(df_long_K562$sample, levels = c(
@@ -91,8 +91,8 @@ df_long_K562$sample <- factor(df_long_K562$sample, levels = c(
 ))
 p <- ggplot(df_long_K562, aes(sample, fill = type)) +
   geom_bar(aes(sample, value, fill = type),
-           width = 0.8,
-           stat = "identity", position = "fill", color = "#303030"
+    width = 0.8,
+    stat = "identity", position = "fill", color = "#303030"
   ) +
   scale_fill_manual(values = c(
     "#e3a6a5", "#ecdd9e", "#71aacd",
@@ -125,5 +125,5 @@ p <- ggplot(df_long_K562, aes(sample, fill = type)) +
   guides(fill = guide_legend(nrow = 4))
 # save
 ggsave("./output/RCI/pancancer/K562_ENCODE.tiff",
-       height = 11.5, width = 10, dpi = 600
+  height = 11.5, width = 10, dpi = 600
 )

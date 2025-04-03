@@ -12,11 +12,11 @@ out_path <- "./output/NMF/UCEC/"
 load("./output/NMF/UCEC/result_FPKM_3group.Rdata")
 # plot
 sfit <- survfit(Surv(time / 30, event) ~ group,
-                data = survival_LUAD
+  data = survival_LUAD
 )
 sur_p <- ggsurvplot(sfit,
-                    pval = T, palette = "jco", conf.int = TRUE,
-                    risk.table = TRUE
+  pval = T, palette = "jco", conf.int = TRUE,
+  risk.table = TRUE
 )
 # use ggplot2 to customize
 # plot body

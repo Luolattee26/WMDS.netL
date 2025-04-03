@@ -43,7 +43,7 @@ colors <- c(
 )
 p <- ggplot(phastCon_df) +
   geom_boxplot(aes(group, Score, color = group),
-               outlier.shape = 21
+    outlier.shape = 21
   ) +
   scale_color_manual(values = c(
     "#eb4b3a", "#48bad0", "#1a9781",
@@ -93,7 +93,7 @@ for (i in 1:nrow(stat.test.phastCon)) {
   }
 }
 ggsave(paste(output_path, "/", "fancy_conservation.tiff", sep = ""),
-       height = 7.4, width = 8, dpi = 600, units = "cm"
+  height = 7.4, width = 8, dpi = 600, units = "cm"
 )
 
 # plot of TS
@@ -103,7 +103,7 @@ colors <- c(
 )
 p <- ggplot(TS_df) +
   geom_boxplot(aes(group, Score, color = group),
-               outlier.shape = 21
+    outlier.shape = 21
   ) +
   scale_color_manual(values = c(
     "#eb4b3a", "#48bad0", "#1a9781",
@@ -158,5 +158,5 @@ for (i in 1:nrow(stat.test.TS)) {
   }
 }
 ggsave(paste(output_path, "/", "fancy_TS.tiff", sep = ""),
-       height = 7.4, width = 8, dpi = 600, units = "cm"
+  height = 7.4, width = 8, dpi = 600, units = "cm"
 )
