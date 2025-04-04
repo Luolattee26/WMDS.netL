@@ -42,7 +42,7 @@ conda activate lncRNA_W
   - A tumor expression matrix: `TYPEtumor.txt`  
   - A differential gene analysis results file containing both **logFC** and **FDR** columns  
 
-  These files should be placed in the `./data/WMDS.net_Run` directory. Each row should represent a gene, and each column should represent a sample.  
+  These files should be placed in the `./data/WMDS.net_Run` directory. Each row of expression matrix should represent a gene, and each column should represent a sample.  
 
 - **Configuration:**  
   - Open the `WMDS.netL.m` script located at `./code/WMDS.netL_algorithm/` and update the `cancer_type` variable to match the `TYPE` used in your input file names.  
@@ -53,7 +53,7 @@ conda activate lncRNA_W
   - `TYPE_driver_lnc_singlediffexp_FDR001.txt`: A list of driver **lncRNAs**, identified by **Ensembl IDs**.  
   - `TYPE_driver_lnc_singlediffexp_FDR001.mat`: A **MATLAB** binary file exported from the above text file.  
 
-- For a better understanding of the required input data format, you may refer to TCGA data available on the Xena platform.  
+- For a better understanding of the required input data format (expression matrix), you may refer to TCGA data available on the Xena platform.  
   ![Input format](input_format.jpg)  
 
 To run `WMDS.netL`, use the following command in **BASH** (or other Shell):  
