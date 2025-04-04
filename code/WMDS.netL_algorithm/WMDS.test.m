@@ -1,28 +1,31 @@
-% The code is an algorithmic implementation of WMDS.netL in our study
+%%
+%   Input:
+%         cancer: one of 14 cancer names, for exmaple 'BLCA'. Then load the
+%         cancer normal and tumor matrix data, and the cancer differential
+%         expression genes.
+%          
+%   Output:
+%         a4:the drivers of this network
+%
 
-
-
-
-load('mRNA_lnc_priori_network')
+cancer = 'BLCA';
+load('mRNA_lnc_priori_network');
 LNC_name = importdata('../../data/WMDS.net_Run/LNC_name.txt');
-cancer_type={'BLCA','BRCA','COAD','HNSC','KICH','KIRC','KIRP','LIHC','LUAD','LUSC','PRAD','STAD','THCA','UCEC'};
-
-for o=1:14
- 
-     clear normal tumor Net P6 P3 C C1 C2 C3 A
-cancer=cancer_type{o};
 filename=strcat('../../data/WMDS.net_Run',cancer,'normal.txt');
 normal=importdata(filename);
 filename=strcat('../../data/WMDS.net_Run',cancer,'tumor.txt');
 tumor=importdata(filename);
+filename=strcat('../../data/WMDS.net_Run/diff_gene_FDR',cancer,'0.01.csv');
+diff_gene=importdata(filename);
+
 
 text=normal.textdata(2:end,1);
 for w=1:length(text)
     text{w}=text{w}(1:15);
 end
 
-IN_all=[mRNA_lnc_priori_network(:,1);mRNA_lnc_priori_network(:,2)];
-
+IN_all=[mRNA_lnc_id_pairs(:,1);mRNA_lnc_id_pairs(:,2)];
+ 
 IN_all=unique(IN_all);
 
 [x1,y1]=ismember(IN_all,text);
@@ -49,8 +52,8 @@ normal_data=normal.data;
 normal_data=normal_data(y1,:);
 lncRNA_text_final=tumor_text;
 
-[~,z1]=ismember(mRNA_lnc_priori_network(:,1),lncRNA_text_final);
-[~,z2]=ismember(mRNA_lnc_priori_network(:,2),lncRNA_text_final);
+[~,z1]=ismember(mRNA_lnc_id_pairs(:,1),lncRNA_text_final);
+[~,z2]=ismember(mRNA_lnc_id_pairs(:,2),lncRNA_text_final);
 y=z1.*z2;
 z=[z1 z2];
 z(y==0,:)=[];
@@ -62,14 +65,12 @@ for i=1:N2
          Net(z(i,1),z(i,2))=1;    
 end
 [R0,p]=xianzhu_fisher(tumor_data,normal_data);
-o
   p(p==0)=eps;
 
  P6=p;
  P6(P6>=0.05)=0;
 P6(P6~=0)=1; 
-filename=strcat('../../data/WMDS.net_Run/diff_gene_FDR',cancer,'0.01.csv');
-diff_gene=importdata(filename);
+
 
 diff_gene_name=diff_gene.textdata(2:end,1);
 
@@ -101,12 +102,12 @@ C=C-diag(diag(C));
  ub = ones(N1,1);
  options = optimoptions('intlinprog','Display','off');
 x = intlinprog(f,intcon,A,b,[],[],lb,ub,options);
-o
+
 [x4,x5]=find(x); 
     [o1,o2]=find(C);
     T=tabulate(o2);
     
-    [l1,l2]=sort(T(:,3),'descend')  
+    [l1,l2]=sort(T(:,3),'descend') ; 
 for i=1:50
     if ismember(l2(i),x4)==1
         break
@@ -127,7 +128,7 @@ end
 x7=intersect(x4,hub);
 a4=lncRNA_text_final(x7);
 filename=strcat('../../output/WMDS_output/',cancer,'_driver_lnc_singlediffexp_FDR001');
-save(filename,'a4');
+LNC_final=intersect(a4,LNC_name)
+save(filename,'LNC_final');
 filename=strcat('../../output/WMDS_output/',cancer,'_driver_lnc_singlediffexp_FDR001');
-writetable(cell2table(a4),filename)
-end
+writetable(cell2table(LNC_final),filename)
