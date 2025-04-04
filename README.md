@@ -36,7 +36,8 @@ conda activate lncRNA_W
 
 ### Run
 
-- **Prerequisites:** Ensure that **MATLAB** is installed on your system before running the algorithm. The `WMDS.netL` algorithm requires the following input files:  
+- **Prerequisites:** 
+  Ensure that **MATLAB** is installed on your system before running the algorithm. The `WMDS.netL` algorithm requires the following input files:  
   - A normal expression matrix: `TYPEnormal.txt`  
   - A tumor expression matrix: `TYPEtumor.txt`  
   - A differential gene analysis results file containing both **logFC** and **FDR** columns  
@@ -64,17 +65,6 @@ or directly run in **MATLAB**:
 code/WMDS.netL_algorithm/WMDS.netL
 ```  
 
-### Example: Driver analysis of BLCA  
-为了更好的帮助用户使用`WMDS.netL`，我们在`./code/WMDS.netL_algorithm/`目录下提供了一个用于分析 BLCA 中driver lncRNAs 的代码文件`WMDS.test.m`，你可以直接运行该代码来获得结果
-- 对 BLCA 进行分析所需的数据已经被提供在`./data/WMDS.net_Run`中，分别为：
-  1. BLCAtumor.txt
-  2. BLCAnormal.txt
-  3. diff_gene_FDRBLCA0.01.csv
-- 请注意，由于数据文件大小的限制，这些数据被通过 LFS 上传，所以请通过 git LFS 进行下载，或者在本仓库对应的数据页面进行下载
-- 运行结果也已经被提供在`./output/WMDS_output`中：
-  1. BLCA_driver_lnc_singlediffexp_FDR001.mat
-  2. BLCA_driver_lnc_singlediffexp_FDR001.txt
-- 整个运行过程在我们测试用的 PC （Intel 4-core CPUs (3.40 GHz × 4) and 24 GB of RAM）上大概耗时一分钟左右
 
 
 
@@ -98,16 +88,6 @@ To help users better understand how to use `WMDS.netL`, we provide a sample scri
 
 - **Runtime Performance:**  
   On our test machine (**Intel 4-core CPU (3.40 GHz × 4), 24 GB RAM**), the full analysis takes approximately **one minute** to complete.  
-
-
-For Figure 3D, we used the phastCon score to assess the conservation of different lncRNA transcripts. This analysis involves the following steps:  
-
-1. **Prepare input files** using `./code/fig.3/fig3.d_0_gtf2bed.sh`  
-2. **Perform conservation analysis** with `./code/fig.3/fig3.d_1_get_phastCon_res.py`  
-3. **Generate plots** using `./code/fig.3/fig3.d&e_plot_Con_TS.R`  
-
-- The numerical prefix (e.g., `0`, `1`) in the filenames denotes the order in which the scripts should be executed.  
-- Similar multi-script workflows apply to the following analyses: *Figure 3F, 4A, 4B, 6A, 6B*.
 
 
 
