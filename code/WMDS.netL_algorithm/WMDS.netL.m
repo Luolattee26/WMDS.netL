@@ -4,16 +4,16 @@
 
 
 load('mRNA_lnc_priori_network')
-LNC_name = importdata('../../data/WMDS.net_Run/LNC_name.txt');
+LNC_name = importdata('../../data/WMDS.net_Run/LNC_ID.txt');
 cancer_type={'BLCA','BRCA','COAD','HNSC','KICH','KIRC','KIRP','LIHC','LUAD','LUSC','PRAD','STAD','THCA','UCEC'};
 
 for o=1:14
  
      clear normal tumor Net P6 P3 C C1 C2 C3 A
 cancer=cancer_type{o};
-filename=strcat('../../data/WMDS.net_Run',cancer,'normal.txt');
+filename=strcat('../../data/WMDS.net_Run/',cancer,'normal.txt');
 normal=importdata(filename);
-filename=strcat('../../data/WMDS.net_Run',cancer,'tumor.txt');
+filename=strcat('../../data/WMDS.net_Run/',cancer,'tumor.txt');
 tumor=importdata(filename);
 
 text=normal.textdata(2:end,1);
@@ -127,7 +127,8 @@ end
 x7=intersect(x4,hub);
 a4=lncRNA_text_final(x7);
 filename=strcat('../../output/WMDS_output/',cancer,'_driver_lnc_singlediffexp_FDR001');
-save(filename,'a4');
+LNC_final=intersect(a4,LNC_ID)
+save(filename,'LNC_final');
 filename=strcat('../../output/WMDS_output/',cancer,'_driver_lnc_singlediffexp_FDR001');
-writetable(cell2table(a4),filename)
+writetable(cell2table(LNC_final),filename)
 end

@@ -37,17 +37,44 @@ conda activate lncRNA_W
 
 - Before running the algorithm, ensure that **MATLAB** is installed on your system. The `WMDS.netL` algorithm requires two input files:  
   - A normal expression matrix (`TYPEnormal.txt`)  
-  - A tumor expression matrix (`TYPEtumor.txt`)  
-  These files should be placed in the `./data/` directory, where each row represents a gene and each column represents a sample.  
+  - A tumor expression matrix (`TYPEtumor.txt`)
+  - A results of the differential gene analysis must contain both logFC and FDR columns 
+  These files should be placed in the `./data/WMDS.net_Run` directory, where each row represents a gene and each column represents a sample.  
 
-- Once the input files are prepared and the runtime environment is set up, update the `cancer_type` variable in the `WMDS.netL` code located at `/code/WMDS.netL_algorithm/WMDS.netL.m`.  
+- Once the input files are prepared and the runtime environment is set up, update the `cancer_type` variable in the `WMDS.netL` code located at `./code/WMDS.netL_algorithm/WMDS.netL.m`.  
   - Set `cancer_type` to match the `TYPE` specified in your input file names.  
   - Additionally, in the `for` loop (`for o=1:14`), adjust the values as needed based on the specific cancer type you are analyzing.  
+
+- WMDS.netL will produce two results for each analysis (i.e., some kind of cancer), both located under `. /output/WMDS_output`:
+  - `TYPE_driver_lnc_singlediffexp_FDR001.txt` is a list of driver lncRNAs, denoted using Ensembl IDs
+  - `TYPE_driver_lnc_singlediffexp_FDR001.mat` is the binary file exported from the above file using **MATLAB**.
+
+
+
+
+
+### Run
+
+- **Prerequisites:** Ensure that **MATLAB** is installed on your system before running the algorithm. The `WMDS.netL` algorithm requires the following input files:  
+  - A normal expression matrix: `TYPEnormal.txt`  
+  - A tumor expression matrix: `TYPEtumor.txt`  
+  - A differential gene analysis results file containing both **logFC** and **FDR** columns  
+
+  These files should be placed in the `./data/WMDS.net_Run` directory. Each row should represent a gene, and each column should represent a sample.  
+
+- **Configuration:**  
+  - Open the `WMDS.netL.m` script located at `./code/WMDS.netL_algorithm/` and update the `cancer_type` variable to match the `TYPE` used in your input file names.  
+  - If necessary, modify the loop (`for o=1:14`) based on the specific number of cancer types you are analyzing.  
+
+- **Output:**  
+  `WMDS.netL` generates two result files for each cancer type, stored in `./output/WMDS_output`:  
+  - `TYPE_driver_lnc_singlediffexp_FDR001.txt`: A list of driver **lncRNAs**, identified by **Ensembl IDs**.  
+  - `TYPE_driver_lnc_singlediffexp_FDR001.mat`: A **MATLAB** binary file exported from the above text file.  
 
 - For a better understanding of the required input data format, you may refer to TCGA data available on the Xena platform.  
   ![Input format](input_format.jpg)  
 
-To run `WMDS.netL`, use the following command in **BASH**:  
+To run `WMDS.netL`, use the following command in **BASH** (or other Shell):  
 ```bash
 matlab -nodisplay -nosplash -r code/WMDS.netL_algorithm/WMDS.netL
 ```  
@@ -56,6 +83,50 @@ or directly run in **MATLAB**:
 code/WMDS.netL_algorithm/WMDS.netL
 ```  
 
+### Example: Driver analysis of BLCA  
+为了更好的帮助用户使用`WMDS.netL`，我们在`./code/WMDS.netL_algorithm/`目录下提供了一个用于分析 BLCA 中driver lncRNAs 的代码文件`WMDS.test.m`，你可以直接运行该代码来获得结果
+- 对 BLCA 进行分析所需的数据已经被提供在`./data/WMDS.net_Run`中，分别为：
+  1. BLCAtumor.txt
+  2. BLCAnormal.txt
+  3. diff_gene_FDRBLCA0.01.csv
+- 请注意，由于数据文件大小的限制，这些数据被通过 LFS 上传，所以请通过 git LFS 进行下载，或者在本仓库对应的数据页面进行下载
+- 运行结果也已经被提供在`./output/WMDS_output`中：
+  1. BLCA_driver_lnc_singlediffexp_FDR001.mat
+  2. BLCA_driver_lnc_singlediffexp_FDR001.txt
+- 整个运行过程在我们测试用的 PC （Intel 4-core CPUs (3.40 GHz × 4) and 24 GB of RAM）上大概耗时一分钟左右
+
+
+
+### Example: Driver Analysis of BLCA  
+
+To help users better understand how to use `WMDS.netL`, we provide a sample script, `WMDS.test.m`, located in `./code/WMDS.netL_algorithm/`. This script demonstrates the **driver lncRNA analysis** for **BLCA** (Bladder Cancer) and can be run directly to generate results.  
+
+- **Input Data:**  
+  The required input files for BLCA analysis are available in `./data/WMDS.net_Run`:  
+  1. `BLCAtumor.txt`  
+  2. `BLCAnormal.txt`  
+  3. `diff_gene_FDRBLCA0.01.csv`  
+
+- **Data Access:**  
+  Due to file size constraints, these datasets are stored using **Git LFS** (Large File Storage). Please ensure you pull them via **Git LFS** or manually download them from the corresponding data section of this repository.  
+
+- **Output Files:**  
+  The results of the BLCA analysis are precomputed and stored in `./output/WMDS_output`:  
+  1. `BLCA_driver_lnc_singlediffexp_FDR001.mat`  
+  2. `BLCA_driver_lnc_singlediffexp_FDR001.txt`  
+
+- **Runtime Performance:**  
+  On our test machine (**Intel 4-core CPU (3.40 GHz × 4), 24 GB RAM**), the full analysis takes approximately **one minute** to complete.  
+
+
+For Figure 3D, we used the phastCon score to assess the conservation of different lncRNA transcripts. This analysis involves the following steps:  
+
+1. **Prepare input files** using `./code/fig.3/fig3.d_0_gtf2bed.sh`  
+2. **Perform conservation analysis** with `./code/fig.3/fig3.d_1_get_phastCon_res.py`  
+3. **Generate plots** using `./code/fig.3/fig3.d&e_plot_Con_TS.R`  
+
+- The numerical prefix (e.g., `0`, `1`) in the filenames denotes the order in which the scripts should be executed.  
+- Similar multi-script workflows apply to the following analyses: *Figure 3F, 4A, 4B, 6A, 6B*.
 
 
 
