@@ -33,25 +33,6 @@ conda env create -f environment.yml
 conda activate lncRNA_W
 ```
 
-### Run  
-
-- Before running the algorithm, ensure that **MATLAB** is installed on your system. The `WMDS.netL` algorithm requires two input files:  
-  - A normal expression matrix (`TYPEnormal.txt`)  
-  - A tumor expression matrix (`TYPEtumor.txt`)
-  - A results of the differential gene analysis must contain both logFC and FDR columns 
-  These files should be placed in the `./data/WMDS.net_Run` directory, where each row represents a gene and each column represents a sample.  
-
-- Once the input files are prepared and the runtime environment is set up, update the `cancer_type` variable in the `WMDS.netL` code located at `./code/WMDS.netL_algorithm/WMDS.netL.m`.  
-  - Set `cancer_type` to match the `TYPE` specified in your input file names.  
-  - Additionally, in the `for` loop (`for o=1:14`), adjust the values as needed based on the specific cancer type you are analyzing.  
-
-- WMDS.netL will produce two results for each analysis (i.e., some kind of cancer), both located under `. /output/WMDS_output`:
-  - `TYPE_driver_lnc_singlediffexp_FDR001.txt` is a list of driver lncRNAs, denoted using Ensembl IDs
-  - `TYPE_driver_lnc_singlediffexp_FDR001.mat` is the binary file exported from the above file using **MATLAB**.
-
-
-
-
 
 ### Run
 
