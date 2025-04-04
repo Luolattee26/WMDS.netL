@@ -36,7 +36,7 @@ conda activate lncRNA_W
 
 ### Run
 
-- **Prerequisites:** 
+- **Prerequisites:**  
   Ensure that **MATLAB** is installed on your system before running the algorithm. The `WMDS.netL` algorithm requires the following input files:  
   - A normal expression matrix: `TYPEnormal.txt`  
   - A tumor expression matrix: `TYPEtumor.txt`  
